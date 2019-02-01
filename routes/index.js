@@ -1,1 +1,7 @@
-module.exports.puzzle = require('./puzzle');
+module.exports = [
+  {
+    controller: require('./puzzle'),
+    route: '/puzzle'
+  },
+
+];

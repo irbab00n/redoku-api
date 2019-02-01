@@ -1,1 +1,1 @@
-module.exports.puzzle = require('./puzzleController');
+module.exports.Puzzle = require('./puzzleController');
