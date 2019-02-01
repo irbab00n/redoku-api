@@ -1,5 +1,5 @@
 
-exports.up = function(knex, Promise) {
+module.exports.up = (knex, Promise) => {
   return Promise.all([
     knex.schema.hasTable('puzzles').then(exists => {
       if (!exists) {
@@ -13,7 +13,7 @@ exports.up = function(knex, Promise) {
   ]);
 };
 
-exports.down = function(knex, Promise) {
+module.exports.down = (knex, Promise) => {
   return Promise.all([
     knex.schema.dropTable('puzzles')
   ]);
