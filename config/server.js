@@ -10,8 +10,8 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-routes.forEach(route => {
-  app.use(route.route, route.controller);
+routes.forEach(({ route, router }) => {
+  app.use(route, router);
 });
 
 app.get('/*', (req, res) => {
