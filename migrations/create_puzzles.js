@@ -1,4 +1,3 @@
-
 module.exports.up = (knex, Promise) => {
   return Promise.all([
     knex.schema.hasTable('puzzles').then(exists => {

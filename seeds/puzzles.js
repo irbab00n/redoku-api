@@ -1,4 +1,3 @@
-
 module.exports.seed = (knex, Promise) => {
   return knex('puzzles').del()
     .then(() => {
