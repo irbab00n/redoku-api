@@ -5,10 +5,10 @@ const _CLIENT = 'pg';
 
 /* CONNECTION */
 const _PRODUCTION_CONNECTION = {
-  host: 'localhost',
-  user: 'postgres',
-  password: 'postgres',
-  database: 'redoku_development',
+  host: 'ec2-23-21-171-25.compute-1.amazonaws.com',
+  user: 'jemiduzvslngsv',
+  password: '6027f5d8900986c2857ed45acc13a75b74ec27b3685dcd9e78615c647dbe5562',
+  database: 'dtcn2gkpbqs8o',
   port: 5432,
 };
 
