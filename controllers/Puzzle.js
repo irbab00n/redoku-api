@@ -6,7 +6,6 @@ module.exports.fetchPuzzle = (req, res) => {
   const { difficulty } = req.query;
 
   if (difficulty === undefined) {
-    // res.status(200).send('Reached the fetchPuzzle controller without a difficulty');
     Puzzle.fetchAll()
       .then(puzzles => {
         let status = puzzles.length > 0 ? 200 : 204;
@@ -18,7 +17,7 @@ module.exports.fetchPuzzle = (req, res) => {
         res.status(500).send(error);
       });
   } else {
-    Puzzle.where({difficulty: difficulty}).fetchAll()
+    Puzzle.where({difficulty}).fetchAll()
       .then(puzzles => {
         let status = puzzles.length > 0 ? 200 : 204;
         let randomPuzzle = puzzles.length > 0 ? puzzles.slice()[getRandomIndexFromRange(0, puzzles.length - 1)] : {};
@@ -26,6 +25,7 @@ module.exports.fetchPuzzle = (req, res) => {
       })
       .catch(error => {
         console.log('something went wrong fetching puzzles by difficulty', error);
+        res.status(500).send(error);
       });
   }
 
