@@ -53,3 +53,13 @@ If you need to rollback the database to drop the tables, run this command:
 ```
 knex migrate:rollback
 ```
+
+---------------------------------------
+On heroku:
+Connect to postgres:
+`heroku pg:psql --app APP_NAME`
+
+push data from a local database into a remote Heroku Postgres database
+`heroku pg:push thesis_devel DATABASE_URL --app APP_NAME`
+
+----------------------------------------
