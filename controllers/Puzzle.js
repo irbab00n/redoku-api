@@ -1,4 +1,4 @@
-const { Puzzle } = require('../models/');
+const { Puzzle } = require('../models');
 const getRandomIndexFromRange = require('../helpers/getRandomIndexFromRange');
 
 module.exports.fetchPuzzle = (req, res) => {
