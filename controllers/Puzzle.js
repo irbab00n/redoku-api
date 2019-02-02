@@ -18,7 +18,15 @@ module.exports.fetchPuzzle = (req, res) => {
         res.status(500).send(error);
       });
   } else {
-    res.status(200).send('Reached the fetchPuzzle controller with a difficulty');
+    Puzzle.where({difficulty: difficulty}).fetchAll()
+      .then(puzzles => {
+        let status = puzzles.length > 0 ? 200 : 204;
+        let randomPuzzle = puzzles.length > 0 ? puzzles.slice()[getRandomIndexFromRange(0, puzzles.length - 1)] : {};
+        res.status(status).send(randomPuzzle);
+      })
+      .catch(error => {
+        console.log('something went wrong fetching puzzles by difficulty', error);
+      });
   }
 
 };
