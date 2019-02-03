@@ -1,6 +1,6 @@
-const dbConfig = process.env.DB_CONFIG || 'local';
+const DB_CONFIG = process.env.DB_CONFIG || 'local';
 
-const config = require('../knexfile')[dbConfig]; 
+const config = require('../knexfile')[DB_CONFIG]; 
 
 // this is where we might have to assign the value differently when we deploy it to run production instead of development
 const knex = require('knex')(config);
