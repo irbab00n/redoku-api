@@ -18,12 +18,12 @@ module.exports.create = async (req, res) => {
     console.log(`\n${error.name}:\n\n`, error.details);
     res.status(422).send(error.details);
     return;
-  }
-
-  Solution.forge(solution).save()
+  } else {
+    Solution.forge(solution).save()
     .then(solution => {
       res.status(201).send(solution);
     });
+  }
 };
 
 // module.exports.delete = (req, res) => {
