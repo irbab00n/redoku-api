@@ -5,10 +5,10 @@ const _CLIENT = 'pg';
 
 /* CONNECTION */
 const _DEVELOPMENT_CONNECTION = {
-  host: 'ec2-23-21-244-254.compute-1.amazonaws.com',
-  user: 'yerwahfdfbqsap',
-  password: '042eaf593e4f7349fe05f7a8984be6b53958f679098f5df5d201ce3df4e987a5',
-  database: 'd7bahs0emtdh2g',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   port: 5432,
 };
 
