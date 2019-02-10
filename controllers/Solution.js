@@ -1,32 +1,33 @@
-// const { Puzzle } = require('../models');
-// const getRandomIndexFromRange = require('../helpers/getRandomIndexFromRange');
+const Joi = require('joi');
 
-// module.exports.fetchPuzzle = (req, res) => {
+const { Solution } = require('../models');
+const schemas = require('../schemas');
 
-//   const { difficulty } = req.query;
+module.exports.create = async (req, res) => {
+  const { solution } = req.body;
 
-//   if (difficulty === undefined) {
-//     Puzzle.fetchAll()
-//       .then(puzzles => {
-//         let status = puzzles.length > 0 ? 200 : 204;
-//         let randomPuzzle = puzzles.length > 0 ? puzzles.slice()[getRandomIndexFromRange(0, puzzles.length - 1)] : {};
-//         res.status(status).send(randomPuzzle);
-//       })
-//       .catch(error => {
-//         console.log('something went wrong fetching all puzzles from the database: ', error);
-//         res.status(500).send(error);
-//       });
-//   } else {
-//     Puzzle.where({difficulty}).fetchAll()
-//       .then(puzzles => {
-//         let status = puzzles.length > 0 ? 200 : 204;
-//         let randomPuzzle = puzzles.length > 0 ? puzzles.slice()[getRandomIndexFromRange(0, puzzles.length - 1)] : {};
-//         res.status(status).send(randomPuzzle);
-//       })
-//       .catch(error => {
-//         console.log('something went wrong fetching puzzles by difficulty', error);
-//         res.status(500).send(error);
-//       });
-//   }
+  if (solution === undefined) {
+    console.log('\nMissing parameter: \n\nsolution\n\n');
+    res.status(422).send('Missing parameter: solution');
+    return;
+  }
+
+  const { error } = Joi.validate(solution, schemas.solution);
+  if (error) {
+    console.log('\nJoi validation failed with solution: \n\n', solution);
+    console.log(`\n${error.name}:\n\n`, error.details);
+    res.status(422).send(error.details);
+    return;
+  }
+
+  Solution.forge(solution).save()
+    .then(solution => {
+      res.status(201).send(solution);
+    });
+};
+
+// module.exports.delete = (req, res) => {
+
+//   res.status(202).send('Successfully removed a Solution');
 
 // };
