@@ -1,2 +1,2 @@
-module.exports.Puzzle = require('./puzzle');
-module.exports.Solution = require('./solution');
+module.exports.Puzzle = require('./Puzzle');
+module.exports.Solution = require('./Solution');
