@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-const routes = require('../routes/');
+const routes = require('../routes');
 
 const app = express();
 
@@ -17,7 +17,6 @@ routes.forEach(({ route, router }) => {
 });
 
 app.get('/*', (req, res) => {
-  console.log('A request has been made to the server');
   res.status(200).send('Successfully connected to Redoku API');
 });
 

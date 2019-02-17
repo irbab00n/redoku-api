@@ -3,7 +3,7 @@ const Joi = require('joi');
 const { Solution } = require('../models');
 const schemas = require('../schemas');
 
-module.exports.create = async (req, res) => {
+module.exports.create = (req, res) => {
   const { solution } = req.body;
 
   if (solution === undefined) {
@@ -20,9 +20,16 @@ module.exports.create = async (req, res) => {
     return;
   } else {
     Solution.forge(solution).save()
-    .then(solution => {
-      res.status(201).send(solution);
-    });
+      .then(solution => {
+        res.status(201).send(solution);
+      })
+      .catch(error => {
+        console.log('Something went wrong while attempting to save a new solution: ', error);
+        res.status(500).send({
+          message: 'Something went wrong while attempting to save a new solution',
+          error
+        });
+      });
   }
 };
 
