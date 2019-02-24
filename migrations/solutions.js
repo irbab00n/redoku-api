@@ -6,8 +6,7 @@ module.exports.up = (knex, Promise) => {
           table.increments(),
           table.integer('puzzle_id').references('id').inTable('puzzles'),
           table.string('solution', 255)
-          // Add in elapsedTime to track total time user spent on puzzle
-          // Add in user_id field once user feature is added in
+          table.string('time', 255)
         });
       }
     })
