@@ -3,6 +3,10 @@ const Joi = require('joi');
 const { Solution } = require('../models');
 const schemas = require('../schemas');
 
+module.exports.findSolutions = (puzzleId) => {
+  return Solution.where({puzzle_id: puzzleId}).fetchAll();
+}
+
 module.exports.create = (req, res) => {
   const { solution } = req.body;
 

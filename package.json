@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/irbab00n/redoku-api#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "bookshelf": "^0.14.2",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
