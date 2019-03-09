@@ -86,7 +86,7 @@ const selectRandomPuzzleFromList = puzzles => {
  *      medium
  *      hard
  */
-module.exports.fetchPuzzle = (req, res) => {
+module.exports.fetchRandomPuzzle = (req, res) => {
 
   const { difficulty } = req.query;
 
