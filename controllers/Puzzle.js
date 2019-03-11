@@ -24,7 +24,7 @@ const generateSuccessStatus = results => (
 /**
  * Will log the error, and then respond to the client with a 500 status code, indicating an internal server error
  * @param {Object} error - Error object containing all relative information to how and why a failure occurred
- * @param {*} res - Response object necessary for responding to requests 
+ * @param {Object} res - Response object necessary for responding to requests 
  */
 const processQueryFailure = (error, res) => {
   console.log('something went wrong fetching puzzles by difficulty', error);
@@ -54,8 +54,8 @@ const processQuerySuccessWithSolutions = (results, res) => {
   let randomPuzzle = selectRandomPuzzleFromList(results);
   SolutionController.findSolutions(randomPuzzle.id)
     .then(solutions => {
-      console.log('solutions retreived for puzzle: ', JSON.stringify(solutions));
-      console.log('current puzzle selected: ', randomPuzzle);
+      // console.log('solutions retreived for puzzle: ', JSON.stringify(solutions));
+      // console.log('current puzzle selected: ', randomPuzzle);
       randomPuzzle.solutions = solutions;
       res.status(status).send(randomPuzzle);
     })
@@ -91,7 +91,8 @@ const selectRandomPuzzleFromList = puzzles => {
 /**
  * @name fetchRandomPuzzle
  * @description - Controller method used to retrieve a random puzzle from the database.
- * 
+ * @param {Object} req Request object
+ * @param {Object} res Response object
  * --- AVAILABLE REQ.QUERY PARAMS ---
  * @property {String} difficulty (OPTIONAL) - difficulty of the puzzle to query
  *   Supported difficulties:
