@@ -33,17 +33,30 @@ const processQueryFailure = (error, res) => {
 
 /**
  * Receives a list of results and the response object
- * Will generate a status, select a puzzle at random, find the solutions for that puzzle, then return to cliet
+ * Will generate a status, select a puzzle at random, then return to cliet
  * @param {Colletion} results - List of results in the form of a JS Collection.  Has a length property to access
  * @param {Object} res - Response object necessary for responding to requests
  */
 const processQuerySuccess = (results, res) => {
   let status = generateSuccessStatus(results); // 200 = success, items retrieved -- 204 = success, no items
   let randomPuzzle = selectRandomPuzzleFromList(results);
+  res.status(status).send(randomPuzzle);
+};
+
+/**
+ * Receives a list of results and the response object
+ * Will generate a status, select a puzzle at random, find the solutions for that puzzle, then return to cliet
+ * @param {Colletion} results - List of results in the form of a JS Collection.  Has a length property to access
+ * @param {Object} res - Response object necessary for responding to requests
+ */
+const processQuerySuccessWithSolutions = (results, res) => {
+  let status = generateSuccessStatus(results); // 200 = success, items retrieved -- 204 = success, no items
+  let randomPuzzle = selectRandomPuzzleFromList(results);
   SolutionController.findSolutions(randomPuzzle.id)
     .then(solutions => {
-      // console.log('solutions retreived for puzzle: ', solutions);
+      console.log('solutions retreived for puzzle: ', JSON.stringify(solutions));
       console.log('current puzzle selected: ', randomPuzzle);
+      randomPuzzle.solutions = solutions;
       res.status(status).send(randomPuzzle);
     })
     .catch(error => {
@@ -59,7 +72,7 @@ const processQuerySuccess = (results, res) => {
 const selectRandomPuzzleFromList = puzzles => {
   if (puzzles.length > 0) {
     let randomIndex = getRandomIndexFromRange(0, puzzles.length - 1);
-    return puzzles.slice()[randomIndex]; 
+    return JSON.parse(JSON.stringify(puzzles))[randomIndex]; 
   } else {
     return {};
   }
@@ -76,7 +89,7 @@ const selectRandomPuzzleFromList = puzzles => {
 */
 
 /**
- * @name fetchPuzzle
+ * @name fetchRandomPuzzle
  * @description - Controller method used to retrieve a random puzzle from the database.
  * 
  * --- AVAILABLE REQ.QUERY PARAMS ---
@@ -85,18 +98,23 @@ const selectRandomPuzzleFromList = puzzles => {
  *      easy
  *      medium
  *      hard
+ * @property {Boolean} getSolutions (OPTIONAL) - If you would like the solutions information for the puzzle
  */
 module.exports.fetchRandomPuzzle = (req, res) => {
 
-  const { difficulty } = req.query;
+  const { difficulty, getSolutions = true } = req.query;
+
+  let processingFunction = getSolutions ?
+    processQuerySuccessWithSolutions :
+    processQuerySuccess;
 
   if (difficulty === undefined) {
     Puzzle.fetchAll()
-      .then(puzzles => processQuerySuccess(puzzles, res))
+      .then(puzzles => processingFunction(puzzles, res))
       .catch(error => processQueryFailure(error, res));
   } else {
     Puzzle.where({difficulty: difficulty.toLowerCase()}).fetchAll()
-      .then(puzzles => processQuerySuccess(puzzles, res))
+      .then(puzzles => processingFunction(puzzles, res))
       .catch(error => processQueryFailure(error, res));
   }
 };
