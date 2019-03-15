@@ -103,7 +103,7 @@ const selectRandomPuzzleFromList = puzzles => {
  */
 module.exports.fetchRandomPuzzle = (req, res) => {
 
-  const { difficulty, getSolutions = true } = req.query;
+  const { difficulty, getSolutions = false } = req.query;
 
   let processingFunction = getSolutions ?
     processQuerySuccessWithSolutions :
